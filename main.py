@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
-import pyflux as pf
 
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
@@ -19,10 +18,9 @@ def linearRegressionModel(data_frame):
     # fit the model to the training data
     logreg = LinearRegression()
     logreg.fit(X_train, y_train)
-    logreg.fit(X_train, y_train)
 
     # make predictions on the testing data
-    y_pred = logreg.predict(X_train)
+    y_pred = logreg.predict(X_test)
 
     analyzeModel(y_pred, X_test, X_train, y_test, y_train)
 
@@ -75,21 +73,12 @@ def polynomialRegression(data_frame):
 
     analyzeModel(y_pred, X_test, X_train, y_test, y_train)
 
-def fractalRegression(data_frame):
-    # Create the model
-    model = pf.FractalReg(data=data_frame, formula='Close~1', ar=4, ma=4)
-
-    # Fit the model
-    model.fit()
-
-    # Make predictions using the model
-    predictions = model.predict(h=len(X_test))
 
 
 
 if __name__ == '__main__':
     #use datahandler to read in csv file
-    dataHandler = DataHandler('../TradingAI/EURCAD.csv')
+    dataHandler = DataHandler('EURCAD.csv')
     data = dataHandler.read_data()
 
     data = dataHandler.format_tickstory_data(data)
@@ -98,8 +87,3 @@ if __name__ == '__main__':
     linearRegressionModel(data)
     polynomialRegression(data)
 
-
-
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
