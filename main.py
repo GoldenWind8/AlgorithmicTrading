@@ -78,7 +78,7 @@ def polynomialRegression(data_frame):
 
 if __name__ == '__main__':
     #use datahandler to read in csv file
-    dataHandler = DataHandler('EURCAD.csv')
+    dataHandler = DataHandler('Data/EURCAD.csv')
     data = dataHandler.read_data()
 
     data = dataHandler.format_tickstory_data(data)
