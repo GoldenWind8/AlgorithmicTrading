@@ -6,6 +6,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 
 from AlgorithmicTrading.DataHandler import DataHandler
+import  tensorflow  as  tf
 
 
 def linearRegressionModel(data_frame):
@@ -72,6 +73,31 @@ def polynomialRegression(data_frame):
     y_pred = poly_reg.predict(X_test_poly)
 
     analyzeModel(y_pred, X_test, X_train, y_test, y_train)
+
+def deepLearningModel(data_frame):
+    # Split the data into training and testing sets
+    train_data = data_frame.iloc[:int(len(data) * 0.8)]
+    test_data = data_frame.iloc[int(len(data) * 0.8):]
+
+    # Define the model architecture
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Dense(32, input_shape=(1,), activation='relu'))
+    model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+
+    # Compile the model
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    # Train the model
+    history = model.fit(train_data['Seconds'], train_data['Price'], epochs=50,
+                        validation_data=(test_data['Seconds'], test_data['Price']))
+
+    # Evaluate the model
+    test_loss, test_acc = model.evaluate(test_data['Seconds'], test_data['Price'])
+    print('Test loss:', test_loss)
+    print('Test accuracy:', test_acc)
+
+    # Make predictions
+    predictions = model.predict(test_data['Seconds'])
 
 
 
